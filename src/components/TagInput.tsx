@@ -10,6 +10,8 @@ type TagInputProps = {
 export const TagInput:React.FC<TagInputProps> = ({label, id, onKeyDown}) => {
   const handleClick = (event: any) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
+    
       console.log('event value', event.target.value);
       onKeyDown(id, event.target.value);
       event.target.value = ''
