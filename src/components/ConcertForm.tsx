@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import ActTag from './ActTag';
+import { TagDisplay } from './TagDisplay';
 import { TagInput } from './TagInput';
 
 function ConcertForm(): JSX.Element {
@@ -33,23 +34,15 @@ function ConcertForm(): JSX.Element {
         <TagInput label="Headlining Acts" id="headliningActs" onKeyDown={handleKeyDown} />
         <TagInput label="Supporting Acts" id="supportingActs" onKeyDown={handleKeyDown} />
       <div>
-        <div className="flex flex-row">
-        {headliningActs.map((act, index) => {
-          return (<ActTag key={index} removeAct={removeAct} act={act} actType='headlining' />)
-        })}
-        </div>
-            <div className="flex flex-row">
-        {supportingActs.map((act, index) => {
-          return (<ActTag key={index} removeAct={removeAct} act={act} actType='supporting' />)
-        })}
+       <TagDisplay labels={headliningActs} removeAct={removeAct} actType='headlining'/>
+       <TagDisplay labels={supportingActs} removeAct={removeAct} actType='supporting'/>
+
         </div>
         <div className="flex flex-col">
         <label htmlFor="venue">Venue</label>
         <input onChange={(e) => setVenue(e.target.value)} value={venue} className="w-32 text-black border border-black" type="text" id="venue"></input>
         </div>
-      </div>
-      </div>
- 
+      </div> 
     </form>
   )
 }

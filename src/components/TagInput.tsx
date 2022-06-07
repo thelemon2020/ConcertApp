@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type TagInputProps = {
   label: string,
@@ -8,24 +8,18 @@ type TagInputProps = {
 
 
 export const TagInput:React.FC<TagInputProps> = ({label, id, onKeyDown}) => {
-  const [value, setValue] = useState('')
-
   const handleClick = (event: any) => {
     if (event.key === 'Enter') {
-      // console.log('value', value);
       console.log('event value', event.target.value);
       onKeyDown(id, event.target.value);
-      // event.target.value = ''
-      setValue('');
+      event.target.value = ''
     }
   }
 
   return (
     <>
       <label htmlFor={id}>{label}</label>
-      <input onChange={(e) => setValue(e.target.value)} value={value} className="w-32 text-black border border-black" type="text" id={id} onKeyDown={handleClick}></input>
-      {/* Below omits the use of onChange and clears value by setting event.target.value = '' */}
-      {/* <input  className="w-32 text-black border border-black" type="text" id={id} onKeyDown={handleClick}></input> */}
+      <input  className="w-32 text-black border border-black" type="text" id={id} onKeyDown={handleClick}></input>
     </>
   )
 }
