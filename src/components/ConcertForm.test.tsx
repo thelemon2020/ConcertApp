@@ -4,7 +4,7 @@ import ConcertForm from './ConcertForm';
 import userEvent from '@testing-library/user-event';
 
 it('can add a headlining act', () => {
-  render(<ConcertForm />);
+  render(<ConcertForm addConcert={() => { /** */}} />);
 
   const act = 'Taylor Swift'
   const input = screen.getByRole('textbox', {name: 'Headlining Acts'});
@@ -15,7 +15,7 @@ it('can add a headlining act', () => {
 });
 
 it('can remove a headlining act', () => {
-  render(<ConcertForm />);
+  render(<ConcertForm addConcert={() => { /** */}} />);
 
   const act = 'Taylor Swift'
   const input = screen.getByRole('textbox', {name: 'Headlining Acts'});
@@ -28,7 +28,7 @@ it('can remove a headlining act', () => {
 })
 
 it('can add a supporting act', () => {
-  render(<ConcertForm />);
+  render(<ConcertForm addConcert={() => { /** */}} />);
 
   const act = 'Backstreet Boys'
   const input = screen.getByRole('textbox', {name: 'Supporting Acts'});
@@ -40,7 +40,7 @@ it('can add a supporting act', () => {
 
 
 it('can remove a supporting act', () => {
-  render(<ConcertForm />);
+  render(<ConcertForm addConcert={() => { /** */}} />);
 
   const act = 'Backstreet Boys'
   const input = screen.getByRole('textbox', {name: 'Supporting Acts'});

@@ -5,7 +5,7 @@ import { Home } from './Home';
 
 it('can handle a submit from concert form', () => {
   render(<Home/>);
-
+  userEvent.click(screen.getByText('Open Modal'));
   const headliningAct = 'Taylor Swift'
   const headliningInput = screen.getByRole('textbox', {name: 'Headlining Acts'});
   userEvent.type(headliningInput, `${headliningAct}{enter}`);
@@ -14,7 +14,7 @@ it('can handle a submit from concert form', () => {
   const supportingInput = screen.getByRole('textbox', {name: 'Supporting Acts'});
   userEvent.type(supportingInput, `${supportingAct}{enter}`);
 
-  const date = '05/11/2022'
+  const date = '2022-05-11'
   const dateInput = screen.getByLabelText('Concert Date');
   userEvent.type(dateInput, `${date}`);
 
@@ -22,11 +22,13 @@ it('can handle a submit from concert form', () => {
   const venueInput = screen.getByRole('textbox', {name: 'Venue'});
   userEvent.type(venueInput, `${venue}`);
 
-  // TODO: implement adding a concert card to the screen when you submit
+  userEvent.click(screen.getByText('Submit'));
+
   const concertCard = screen.getByTestId('concert-card');
   expect(concertCard).toBeInTheDocument();
-  expect(within(concertCard).getByText(headliningAct)).tobeInTheDocument();
-  expect(within(concertCard).getByText(supportingAct)).tobeInTheDocument();
-  expect(within(concertCard).getByText(date)).tobeInTheDocument();
-  expect(within(concertCard).getByText(venue)).tobeInTheDocument();
+  
+  expect(within(concertCard).getByText(headliningAct)).toBeInTheDocument();
+  expect(within(concertCard).getByText(supportingAct)).toBeInTheDocument();
+  expect(within(concertCard).getByText(date)).toBeInTheDocument();
+  expect(within(concertCard).getByText(venue)).toBeInTheDocument();
 });

@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { TagDisplay } from "./TagDisplay";
 import { TagInput } from "./TagInput";
 
-type Concert = {
+export type Concert = {
   headliningActs: Array<string>;
   supportingActs: Array<string>;
   venue: string;
   date: string;
 };
 
-function ConcertForm(): JSX.Element {
+interface ConcertFormProps {
+  addConcert: (newConcert: Concert) => void;
+}
+
+const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
   const [concert, setConcert] = useState<Concert>({
     headliningActs: [],
     supportingActs: [],
@@ -51,6 +55,7 @@ function ConcertForm(): JSX.Element {
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("concert", concert);
+    addConcert(concert);
   };
 
   return (
@@ -63,6 +68,7 @@ function ConcertForm(): JSX.Element {
           className="w-32 border border-black"
           type="date"
           id="concertDate"
+          onChange={(event) => {setConcert({ ...concert, date: event.target.value })}}
         ></input>
       </div>
 
@@ -90,8 +96,8 @@ function ConcertForm(): JSX.Element {
         <div className="flex flex-col">
           <label htmlFor="venue">Venue</label>
           <input
-            onChange={(e) => setVenue(e.target.value)}
-            value={venue}
+            onChange={(event) => {setConcert({ ...concert, venue: event.target.value })}}
+            value={concert.venue}
             className="w-32 text-black border border-black"
             type="text"
             id="venue"
