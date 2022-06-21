@@ -1,11 +1,16 @@
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Home } from './Home';
 
 it('can handle a submit from concert form', () => {
   render(<Home/>);
+
   userEvent.click(screen.getByText('Open Modal'));
+
+  const modal = screen.getByText('Add Concert');
+  expect(modal).toBeVisible();
+
   const headliningAct = 'Taylor Swift'
   const headliningInput = screen.getByRole('textbox', {name: 'Headlining Acts'});
   userEvent.type(headliningInput, `${headliningAct}{enter}`);
@@ -23,6 +28,8 @@ it('can handle a submit from concert form', () => {
   userEvent.type(venueInput, `${venue}`);
 
   userEvent.click(screen.getByText('Submit'));
+
+  expect(modal).not.toBeVisible();
 
   const concertCard = screen.getByTestId('concert-card');
   expect(concertCard).toBeInTheDocument();

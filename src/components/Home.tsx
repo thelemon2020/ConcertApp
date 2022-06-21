@@ -1,31 +1,44 @@
 import React, { useState } from "react";
 import { ConcertCard } from "./ConcertCard";
 import ConcertForm, { Concert } from "./ConcertForm";
+import { mdiPlusCircle } from '@mdi/js'
+import Icon from "@mdi/react";
+import Timeline from "./Timeline";
 
 export const Home: React.FC = () => {
   const [concerts, setConcerts] = useState<Concert[]>([]);
 
   return (
     <>
-      <Modal>
+      <Modal title={'Add Concert'}>
         <ConcertForm
           addConcert={(concert) => setConcerts([...concerts, concert])}
         />
       </Modal>
-      {concerts.map((concert, index) => {
+      <div className="flex justify-center align-center columns-1">
+       <Timeline concerts={concerts} />
+      {/* {concerts.map((concert, index) => {
         return <ConcertCard concert={concert} key={index} />;
-      })}
+      })} */}
+      </div>
     </>
   );
 };
 
-const ModalContext = React.createContext({onClose : () => {}});
+export const ModalContext = React.createContext({onClose : () => {}});
+
 //do stuff with the above. You're welcome
-const Modal: React.FC<{ children: JSX.Element }> = ({ children }) => {
+const Modal: React.FC<{ children: JSX.Element, title: string }> = ({ children, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
-      <button onClick={() => setIsOpen(true)}>Open Modal</button>
+    <ModalContext.Provider value={{onClose: () => setIsOpen(false)}}>
+      <button onClick={() => setIsOpen(true)}>
+        <Icon
+          path={mdiPlusCircle}
+          size={2}
+          color={"red"}
+        />
+      </button>
       {isOpen && (
         <div
           style={{
@@ -41,11 +54,12 @@ const Modal: React.FC<{ children: JSX.Element }> = ({ children }) => {
           }}
         >
           <div style={{ backgroundColor: "white" }}>
+            <h3>{title}</h3>
             {children}
             <button onClick={() => setIsOpen(false)}>Close</button>
           </div>
         </div>
       )}
-    </>
+    </ModalContext.Provider>
   );
 };

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ModalContext } from "./Home";
 import { TagDisplay } from "./TagDisplay";
 import { TagInput } from "./TagInput";
 
@@ -22,6 +23,8 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
   });
 
   const [venue, setVenue] = useState<string>("");
+
+  const {onClose} = useContext(ModalContext);
 
   const handleKeyDown = (actId: string, value: string) => {
     if (actId === "headliningActs") {
@@ -56,6 +59,7 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("concert", concert);
     addConcert(concert);
+    onClose();
   };
 
   return (
