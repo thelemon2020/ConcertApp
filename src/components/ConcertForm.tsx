@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import React, { useContext, useState } from "react";
 import { ModalContext } from "./Home";
 import { TagDisplay } from "./TagDisplay";
@@ -8,6 +9,7 @@ export type Concert = {
   supportingActs: Array<string>;
   venue: string;
   date: string;
+  id: string
 };
 
 interface ConcertFormProps {
@@ -20,6 +22,7 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
     supportingActs: [],
     venue: "",
     date: "",
+    id: randomUUID(),
   });
 
   const [venue, setVenue] = useState<string>("");
@@ -57,7 +60,6 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
   }
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("concert", concert);
     addConcert(concert);
     onClose();
   };
