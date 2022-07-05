@@ -6,7 +6,7 @@ import { Home } from './Home';
 it('can handle a submit from concert form', () => {
   render(<Home/>);
 
-  userEvent.click(screen.getByText('Open Modal'));
+  userEvent.click(screen.getByRole('button', {name: 'Add Concert'}));
 
   const modal = screen.getByText('Add Concert');
   expect(modal).toBeVisible();
@@ -31,11 +31,7 @@ it('can handle a submit from concert form', () => {
 
   expect(modal).not.toBeVisible();
 
-  const concertCard = screen.getByTestId('concert-card');
-  expect(concertCard).toBeInTheDocument();
-  
-  expect(within(concertCard).getByText(headliningAct)).toBeInTheDocument();
-  expect(within(concertCard).getByText(supportingAct)).toBeInTheDocument();
-  expect(within(concertCard).getByText(date)).toBeInTheDocument();
-  expect(within(concertCard).getByText(venue)).toBeInTheDocument();
+  const concertBullet =  screen.getByRole('button', {name: /Show Concert Details/});
+  expect(concertBullet).toBeInTheDocument();
 });
+

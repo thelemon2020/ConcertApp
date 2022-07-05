@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import React, { useContext, useState } from "react";
 import { ModalContext } from "./Home";
 import { TagDisplay } from "./TagDisplay";
@@ -22,7 +21,7 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
     supportingActs: [],
     venue: "",
     date: "",
-    id: randomUUID(),
+    id: '2',
   });
 
   const [venue, setVenue] = useState<string>("");

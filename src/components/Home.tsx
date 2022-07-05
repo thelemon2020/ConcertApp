@@ -17,9 +17,6 @@ export const Home: React.FC = () => {
       </Modal>
       <div className="flex justify-center align-center columns-1">
        <Timeline concerts={concerts} />
-      {/* {concerts.map((concert, index) => {
-        return <ConcertCard concert={concert} key={index} />;
-      })} */}
       </div>
     </>
   );
@@ -27,12 +24,11 @@ export const Home: React.FC = () => {
 
 export const ModalContext = React.createContext({onClose : () => {}});
 
-//do stuff with the above. You're welcome
 const Modal: React.FC<{ children: JSX.Element, title: string }> = ({ children, title }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <ModalContext.Provider value={{onClose: () => setIsOpen(false)}}>
-      <button onClick={() => setIsOpen(true)}>
+      <button onClick={() => setIsOpen(true)} aria-label={'Add Concert'}>
         <Icon
           path={mdiPlusCircle}
           size={2}

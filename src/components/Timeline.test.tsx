@@ -5,16 +5,19 @@ import { Concert } from './ConcertForm';
 import Timeline from './Timeline';
 
 
+const firstBand = 'some new band';
+const secoundBand = 'some old band';
+
 const concerts: Concert[] = [
   {
-    headliningActs: ['someband'],
+    headliningActs: [secoundBand],
     supportingActs: ['someotherband'],
     date: '12/12/2021',
     venue: 'some venue',
     id: '1234'
   },
    {
-    headliningActs: ['someband'],
+    headliningActs: [firstBand],
     supportingActs: ['someotherband'],
     date: '11/12/2021',
     venue: 'some venue',
@@ -25,9 +28,26 @@ const concerts: Concert[] = [
 it('can display concerts in correct order', () => {
   render(<Timeline concerts={concerts}></Timeline>)
 
-  const bullets = screen.getAllByTestId(/icon/);
+  const bullets = screen.getAllByRole('button', {name: /Show Concert Details/});
 
-  expect(bullets[0]).toHaveAttribute('data-testId', 'icon-5678')
-  expect(bullets[1]).toHaveAttribute('data-testId', 'icon-1234')
+  [firstBand, secoundBand].forEach((bandHeadingAct, index) => {
+    userEvent.click(bullets[index]);
+
+    expect(screen.getByText(bandHeadingAct)).toBeInTheDocument();
+
+    userEvent.click(bullets[index]);
+  })
 });
 
+// TODO: fix this test
+it('can click on timeline bullet to open a detailed view', () => {
+  render(<Timeline concerts={[concerts[0]]}></Timeline>)
+
+  expect(screen.queryByRole('dialog', {name:/Concert info for/})).not.toBeInTheDocument();
+
+  const concertBullet =  screen.getByRole('button', {name: /Show Concert Details/});
+
+  userEvent.click(concertBullet);
+
+  expect(screen.getByRole('dialog', {name:/Concert info for/})).toBeInTheDocument();
+})
