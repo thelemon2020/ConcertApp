@@ -21,7 +21,7 @@ const ConcertForm: React.FC<ConcertFormProps> = ({addConcert}) => {
     supportingActs: [],
     venue: "",
     date: "",
-    id: '2',
+    id: new Date().getTime().toString(),
   });
 
   const [venue, setVenue] = useState<string>("");

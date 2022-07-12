@@ -1,37 +1,34 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useState } from "react";
 import { Concert } from "./ConcertForm";
-import { mdiCheckboxBlankCircle } from "@mdi/js";
-import Icon from "@mdi/react";
 import moment from "moment";
-import { ConcertCard } from "./ConcertCard";
 import { ConcertDot } from "./ConcertDot";
 
-
 const Timeline: React.FC<{ concerts: Concert[] }> = ({ concerts }) => {
-  const sortedConcerts = useMemo(() => concerts.sort((a, b) =>  {
-    // TODO: learn how to sort
-    const aDate = moment(a.date, 'YYYY-MM-DD');
-    const bDate = moment(b.date, 'YYYY-MM-DD');
+  const [expandedConcert, setExpandedConcert] = useState<string | null>(null);
 
-    if (aDate.isBefore(bDate)) return -1
-    return 1
-  }), [concerts]);
+  const sortFunction = (a: Concert, b: Concert) => {
+    const aDate = moment(a.date, "YYYY-MM-DD");
+    const bDate = moment(b.date, "YYYY-MM-DD");
 
-
-
-  console.log('sortedConcerts', sortedConcerts)
+    if (aDate.isBefore(bDate)) return -1;
+    return 1;
+  };
 
   return (
     <div className="w-5 h-screen bg-red-500 flex flex-col items-center">
-      {concerts.map((concert, index) => {
+      {concerts.sort(sortFunction).map((concert, index) => {
         return (
-          <ConcertDot key={index} concert={concert} />
+          <ConcertDot
+            isExpanded={expandedConcert === concert.id}
+            setExpandedConcert={setExpandedConcert}
+            key={index}
+            position={index % 2 === 0 ? "left" : "right"}
+            concert={concert}
+          />
         );
       })}
     </div>
   );
 };
-
-
 
 export default Timeline;

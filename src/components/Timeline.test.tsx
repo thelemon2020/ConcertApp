@@ -39,7 +39,6 @@ it('can display concerts in correct order', () => {
   })
 });
 
-// TODO: fix this test
 it('can click on timeline bullet to open a detailed view', () => {
   render(<Timeline concerts={[concerts[0]]}></Timeline>)
 
@@ -50,4 +49,21 @@ it('can click on timeline bullet to open a detailed view', () => {
   userEvent.click(concertBullet);
 
   expect(screen.getByRole('dialog', {name:/Concert info for/})).toBeInTheDocument();
+})
+
+it('will only display one card at a time', () => {
+  render(<Timeline concerts={concerts}></Timeline>)
+
+  const concertBullets =  screen.getAllByRole('button', {name: /Show Concert Details/});
+
+  userEvent.click(concertBullets[0]);
+
+  const firstConcertInfo = screen.getByRole('dialog', {name: `Concert info for ${concerts[0].id}`})
+  expect(firstConcertInfo).toBeInTheDocument();
+
+  userEvent.click(concertBullets[1]);
+
+  const secondConcertInfo = screen.getByRole('dialog', {name: `Concert info for ${concerts[1].id}`})
+  expect(secondConcertInfo).toBeInTheDocument();
+  expect(firstConcertInfo).not.toBeInTheDocument();
 })
